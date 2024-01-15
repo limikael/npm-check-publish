@@ -1,0 +1,16 @@
+{
+  "name": "npm-check-publish",
+  "version": "1.0.0",
+  "main": "index.js",
+  "license": "MIT",
+  "type": "module",
+  "bin": {
+    "npm-check-publish": "src/npm-check-publish.js"
+  },
+  "dependencies": {
+    "console-table-printer": "^2.12.0",
+    "minimist": "^1.2.8",
+    "semver": "^7.5.4",
+    "url-join": "^5.0.0"
+  }
+}
