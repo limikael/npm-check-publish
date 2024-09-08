@@ -26,7 +26,12 @@ export default class Package {
 
 			let packageResult=await npmGetPackageInfo(this.name);
 			this.publishedVersion=packageResult.version;
-			this.publishedHash=packageResult.dist.shasum;
+
+			if (packageResult.dist)
+				this.publishedHash=packageResult.dist.shasum;
+
+			else
+				this.publishedHash=null;
 		}
 	}
 
@@ -54,7 +59,8 @@ export default class Package {
 		else
 			console.log("**** Updating: "+this.name);
 
-		if (!semver.gt(this.packageJson.version,this.publishedVersion)) {
+		if (this.publishedVersion &&
+				!semver.gt(this.packageJson.version,this.publishedVersion)) {
 			let newVersion=semverMax(
 				semverIncPatch(this.publishedVersion),
 				semverIncPatch(this.packageJson.version)
