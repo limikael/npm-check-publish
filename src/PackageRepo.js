@@ -3,6 +3,7 @@ import path from "path";
 import fs from "fs";
 import {Table} from "console-table-printer";
 import * as readline from 'readline';
+import {runInParallel} from "./js-util.js";
 
 export default class PackageRepo {
 	constructor({packageSourcePaths}) {
@@ -39,10 +40,24 @@ export default class PackageRepo {
 	}
 
 	async initialize() {
-		for (let i=0; i<this.packages.length; i++) {
+		console.log("initialize..");
+
+		let jobs=[];
+		for (let pkg of this.packages) {
+			jobs.push(async ()=>{
+				await pkg.initialize();
+			});
+		}
+
+		await runInParallel(jobs,10,percent=>{
+			process.stdout.write("Checking packages: "+percent+"%\r");
+		});
+
+		/*for (let i=0; i<this.packages.length; i++) {
+			jobs
 			process.stdout.write("Checking packages: "+(i+1)+"/"+this.packages.length+"\r");
 			await this.packages[i].initialize();
-		}
+		}*/
 
 		readline.clearLine(process.stdout);
 	}
