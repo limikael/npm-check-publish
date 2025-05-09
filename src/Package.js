@@ -3,6 +3,7 @@ import fs from "fs";
 import {runCommand} from "./node-util.js";
 import {npmGetPackageInfo, semverMax, semverIncPatch, semverSet, semverGet} from "./npm-util.js";
 import semver from "semver";
+import {extractJsonObject} from "./json-util.js";
 
 export default class Package {
 	constructor(dir) {
@@ -21,7 +22,11 @@ export default class Package {
 		//console.log("initialize: "+this.name);
 		if (!this.packageJson.private) {
 			let npmResultJson=await runCommand("npm",["publish","--dry-run","--quiet","--json",this.dir])
+			npmResultJson=extractJsonObject(npmResultJson);
+			//console.log(npmResultJson);
 			let npmResult=JSON.parse(npmResultJson);
+			if (!npmResult)
+				throw new Error("Unable to parse JSON: "+npmResultJson);
 			this.localHash=npmResult.shasum;
 
 			let packageResult=await npmGetPackageInfo(this.name);

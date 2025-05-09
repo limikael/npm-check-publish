@@ -1,5 +1,8 @@
 {
   "name": "npm-check-publish",
+  "scripts": {
+    "test": "jasmine"
+  },
   "version": "1.0.0",
   "main": "index.js",
   "license": "MIT",
@@ -12,5 +15,8 @@
     "minimist": "^1.2.8",
     "semver": "^7.5.4",
     "url-join": "^5.0.0"
+  },
+  "devDependencies": {
+    "jasmine": "^5.7.1"
   }
 }

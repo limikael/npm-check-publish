@@ -53,13 +53,12 @@ export default class PackageRepo {
 			process.stdout.write("Checking packages: "+percent+"%\r");
 		});
 
+		readline.clearLine(process.stdout);
+
 		/*for (let i=0; i<this.packages.length; i++) {
-			jobs
 			process.stdout.write("Checking packages: "+(i+1)+"/"+this.packages.length+"\r");
 			await this.packages[i].initialize();
 		}*/
-
-		readline.clearLine(process.stdout);
 	}
 
 	printPackageInfo() {
